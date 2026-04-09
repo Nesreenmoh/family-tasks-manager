@@ -29,6 +29,7 @@ public class TaskInstance {
     @Enumerated(EnumType.STRING)
     private TaskStatus status = TaskStatus.PENDING;
 
+
     private LocalDateTime completedAt;
 
     @ManyToOne
