@@ -1,19 +1,15 @@
 package com.family.task.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 import java.time.LocalTime;
 
 @Entity
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,9 +19,14 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Task name must not be empty!")
     private String name;
 
-    private LocalTime scheduleTime;
+    private LocalTime scheduledTime;
+
+    @ManyToOne
+    @JoinColumn(name = "routine_id")
+    private Routine routine;
 
 
 }

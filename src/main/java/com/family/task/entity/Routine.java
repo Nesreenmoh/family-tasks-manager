@@ -2,17 +2,15 @@ package com.family.task.entity;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -22,10 +20,10 @@ public class Routine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "The name of the routine must not be empty!")
+    @NotBlank(message = "The name of the routine must not be empty!")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "routine", cascade = CascadeType.ALL,  orphanRemoval = true)
     private Set<Task> tasks = new HashSet<>();
 
 
