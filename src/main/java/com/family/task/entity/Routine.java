@@ -31,5 +31,18 @@ public class Routine {
     @JoinColumn(name = "child_id")
     private Child child;
 
+    /*
+    Helper method so the relationships will be synchronized automatically
+     */
+    public void addTask(Task task) {
+        tasks.add(task);
+        task.setRoutine(this);
+    }
+
+    public void removeTask(Task task) {
+        tasks.remove(task);
+        task.setRoutine(null);
+    }
+
 
 }

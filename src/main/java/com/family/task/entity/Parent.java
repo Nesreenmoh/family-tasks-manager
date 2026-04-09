@@ -28,4 +28,17 @@ public class Parent extends Person {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL,  orphanRemoval = true)
     private Set<Child> children = new HashSet<Child>();
 
+    /*
+    Helper method so the relationships will be synchronized automatically
+     */
+    public void addChild(Child child) {
+        children.add(child);
+        child.setParent(this);
+    }
+
+    public void removeChild(Child child){
+        children.remove(child);
+        child.setParent(null);
+    }
+
 }
