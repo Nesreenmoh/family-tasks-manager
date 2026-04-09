@@ -1,10 +1,7 @@
 package com.family.task.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,8 +15,9 @@ public class TaskInstance {
 
     LocalDate date;
 
-    TaskStatus status;
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
 
-    LocalDateTime completedAt;
+    private LocalDateTime completedAt;
 
 }
