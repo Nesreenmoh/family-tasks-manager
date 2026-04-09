@@ -28,6 +28,7 @@ public class Routine {
 
 
     @ManyToOne
+    @JoinColumn(name = "child_id")
     private Child child;
 
 

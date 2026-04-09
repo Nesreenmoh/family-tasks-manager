@@ -13,16 +13,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(indexes = {
+        @Index(name="idx_taskinstance_child", columnList = "child_id"),
+        @Index(name="idx_taskinstance_task", columnList = "task_id")
+})
 public class TaskInstance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate assignedDate;
+    private LocalDate executionDate;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private TaskStatus status;
+    private TaskStatus status = TaskStatus.PENDING;
 
     private LocalDateTime completedAt;
 

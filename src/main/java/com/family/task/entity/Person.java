@@ -5,7 +5,7 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
 
 @MappedSuperclass
-public class Person {
+public abstract class Person {
 
     @NotBlank(message = "First Name must not be empty!")
     private String fName;
