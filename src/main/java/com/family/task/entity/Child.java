@@ -1,13 +1,18 @@
 package com.family.task.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Child extends Person {
 
     @Id
@@ -17,5 +22,9 @@ public class Child extends Person {
     @NotNull(message = "Age must not be empty!")
     @Min(0)
     private Integer age;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Parent parent;
 
 }

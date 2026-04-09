@@ -1,13 +1,21 @@
 package com.family.task.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Parent extends Person {
 
     @Id
@@ -19,5 +27,7 @@ public class Parent extends Person {
     @NotBlank(message = "Email must not be empty!")
     private String email;
 
+    @OneToMany
+    private Set<Child> children = new HashSet<Child>();
 
 }
