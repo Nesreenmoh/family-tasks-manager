@@ -21,8 +21,10 @@ public class Child extends Person {
     @Min(0)
     private Integer age;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Parent parent;
+
+
 
 }
