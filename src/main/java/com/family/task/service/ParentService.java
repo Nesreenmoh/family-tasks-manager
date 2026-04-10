@@ -40,4 +40,12 @@ public class ParentService {
     public List<Parent> getAllParents(){
         return parentRepository.findAll();
     }
+
+    public Parent updateParent(Parent parent){
+        Parent findParent = getParentById(parent.getId());
+        if( findParent==null){
+            throw new EntityNotFoundException("Parent with id " + parent.getId() + " not found");
+        }
+       return parentRepository.save(findParent);
+    }
 }

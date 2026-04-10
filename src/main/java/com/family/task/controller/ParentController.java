@@ -40,4 +40,10 @@ public class ParentController {
         parentService.deleteParent(id);
         return ResponseEntity.ok("Parent Record has been Deleted Successfully");
     }
+
+    @PutMapping
+    public ResponseEntity<Parent> updateParent(@RequestBody Parent parent){
+        return
+                ResponseEntity.ok(parentService.updateParent(parent));
+    }
 }
