@@ -3,6 +3,7 @@ package com.family.task.controller;
 
 import com.family.task.entity.Parent;
 import com.family.task.service.ParentService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class ParentController {
     }
 
     @PostMapping
-    public ResponseEntity<Parent> addParent(@RequestBody Parent parent){
+    public ResponseEntity<Parent> addParent(@RequestBody @Valid Parent parent){
         return ResponseEntity.ok(parentService.addParent(parent));
     }
 
@@ -42,7 +43,7 @@ public class ParentController {
     }
 
     @PutMapping
-    public ResponseEntity<Parent> updateParent(@RequestBody Parent parent){
+    public ResponseEntity<Parent> updateParent(@RequestBody @Valid Parent parent){
         return
                 ResponseEntity.ok(parentService.updateParent(parent));
     }
