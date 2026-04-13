@@ -32,6 +32,10 @@ public class ParentController {
     @GetMapping("/{id}")
     public ResponseEntity<Parent> getParentById(@PathVariable long id){
         Parent parent = parentService.getParentById(id);
+        if(parent == null)
+        {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(parent);
     }
 

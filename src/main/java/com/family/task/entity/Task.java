@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -24,9 +26,12 @@ public class Task {
 
     private LocalTime scheduledTime;
 
-    @ManyToOne
-    @JoinColumn(name = "routine_id")
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "routine_id", nullable = false)
     private Routine routine;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TaskInstance> taskInstance= new HashSet<>();
 
 
 }

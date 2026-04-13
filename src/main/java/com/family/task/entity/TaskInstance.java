@@ -32,12 +32,12 @@ public class TaskInstance {
 
     private LocalDateTime completedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "child_id")
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "child_id", nullable = false)
     private Child child;
 
-    @ManyToOne
-    @JoinColumn(name = "task_id")
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name = "task_id", nullable = false)
     private Task task;
 
 }

@@ -1,6 +1,8 @@
 package com.family.task.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -24,11 +26,12 @@ public class Routine {
     private String name;
 
     @OneToMany( mappedBy = "routine", cascade = CascadeType.ALL,  orphanRemoval = true)
+    @JsonIgnore
     private Set<Task> tasks = new HashSet<>();
 
 
-    @ManyToOne
-    @JoinColumn(name = "child_id")
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "child_id", nullable = false)
     private Child child;
 
     /*
