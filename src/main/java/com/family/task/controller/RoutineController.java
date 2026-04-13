@@ -18,7 +18,7 @@ public class RoutineController {
         this.routineService = routineService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping
     private ResponseEntity<List<Routine>> getRoutines(@PathVariable long child_id) {
        return ResponseEntity.ok(routineService.getAllRoutines(child_id));
     }
