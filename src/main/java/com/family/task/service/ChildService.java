@@ -89,10 +89,12 @@ public class ChildService {
         if (!parent.isPresent()) {
             throw new EntityNotFoundException("Parent with this Id " + parentId + " not found");
         }
-        return parent.get().getChildren()
-                .stream()
-                .filter(child -> child.getParent().getId().equals(parentId))
-                .toList();
+//        return parent.get().getChildren()
+//                .stream()
+//                .filter(child -> child.getParent().getId().equals(parentId))
+//                .toList();
+        return parent.get()
+                .getChildren().stream().toList();
 
     }
 }

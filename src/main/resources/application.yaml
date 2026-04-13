@@ -1,8 +1,10 @@
 spring:
   security:
+    debug: true
     user:
       name: admin
       password: admin
+
   application:
     name: children-tasks-manager
   datasource:

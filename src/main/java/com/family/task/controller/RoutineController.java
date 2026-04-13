@@ -3,15 +3,12 @@ package com.family.task.controller;
 import com.family.task.entity.Routine;
 import com.family.task.service.RoutineService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/routines")
+@RequestMapping("/api/v1/children/{child_id}/routines")
 public class RoutineController {
 
     private final RoutineService routineService;
@@ -21,17 +18,22 @@ public class RoutineController {
         this.routineService = routineService;
     }
 
-    @GetMapping
-    private ResponseEntity<List<Routine>> getRoutines(){
-       return ResponseEntity.ok(routineService.getAllRoutines());
+    @GetMapping("{id}")
+    private ResponseEntity<List<Routine>> getRoutines(@PathVariable long child_id) {
+       return ResponseEntity.ok(routineService.getAllRoutines(child_id));
     }
 
 
-    @GetMapping("/{id}")
-    private ResponseEntity<Routine> getRoutine(@PathVariable Long id){
-       return ResponseEntity.ok( routineService.getRoutine(id));
+    @GetMapping("/{routine_id}")
+    private ResponseEntity<Routine> getRoutine(@PathVariable long child_id, @PathVariable Long routine_id) {
+       return ResponseEntity.ok( routineService.getRoutine(routine_id));
     }
 
+
+//    @PostMapping
+//    private ResponseEntity<Routine> addRoutine(@RequestBody Routine routine){
+//        return ResponseEntity.ok( routineService.addRoutine(routine));
+//    }
 
 
 }
