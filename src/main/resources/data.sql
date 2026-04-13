@@ -1,5 +1,7 @@
 select * from parent;
 
+SELECT setval('child_id_seq', (SELECT COALESCE(MAX(id), 0) FROM child) + 1, false);
+
 -- -- Sample data for family task manager
 --
 -- -- Insert parents

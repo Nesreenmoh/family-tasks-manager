@@ -4,11 +4,13 @@ import com.family.task.entity.Parent;
 import com.family.task.repository.ParentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ParentService {
 
 
@@ -41,11 +43,15 @@ public class ParentService {
         return parentRepository.findAll();
     }
 
-    public Parent updateParent(Parent parent){
-        Parent findParent = getParentById(parent.getId());
+
+    public Parent updateParent(long id, Parent parent){
+        Parent findParent = getParentById(id);
         if( findParent==null){
             throw new EntityNotFoundException("Parent with id " + parent.getId() + " not found");
         }
+        findParent.setFName(parent.getFName());
+        findParent.setLName(parent.getLName());
+        findParent.setEmail(parent.getEmail());
        return parentRepository.save(findParent);
     }
 }

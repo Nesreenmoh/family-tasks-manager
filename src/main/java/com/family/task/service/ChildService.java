@@ -7,11 +7,13 @@ import com.family.task.repository.ChildRepository;
 import com.family.task.repository.ParentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ChildService {
 
 
@@ -31,8 +33,8 @@ public class ChildService {
             throw new EntityNotFoundException("Parent with id " + parentId + " not found");
         }
         parent.get().addChild(child);
-        parentRepository.save(parent.get());
-        return childRepository.save(child);
+        parentRepository.save(parent.get()); // cascades child insert
+        return child;
     }
 
     public Child updateChild(long parentid, long childId, Child child) {
@@ -45,10 +47,11 @@ public class ChildService {
         if (!parent.isPresent()) {
             throw new EntityNotFoundException("Parent with id " + parentid + " not found");
         }
-        parent.get().addChild(child);
-        childRepository.save(child);
-        parentRepository.save(parent.get());
-        return childRepository.save(updatedChild);
+        updatedChild.setFName(child.getFName());
+        updatedChild.setLName(child.getLName());
+        updatedChild.setAge(child.getAge());
+
+        return updatedChild;
     }
 
     public void deleteChild(long parentId, long id) {
