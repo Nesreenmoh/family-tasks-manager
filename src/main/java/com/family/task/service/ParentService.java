@@ -1,5 +1,7 @@
 package com.family.task.service;
 
+import com.family.task.dto.ParentRequest;
+import com.family.task.dto.ParentResponse;
 import com.family.task.entity.Parent;
 import com.family.task.repository.ParentRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -8,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.family.task.mapper.ParentObjectMapper.mapParentRequestToParent;
+import static com.family.task.mapper.ParentObjectMapper.mapParentToParentResponse;
 
 @Service
 @Transactional
@@ -20,8 +25,9 @@ public class ParentService {
         this.parentRepository = parentRepository;
     }
 
-    public Parent  addParent(Parent parent){
-      return  parentRepository.save(parent);
+    public ParentResponse addParent(ParentRequest parentRequest){
+       Parent parent =  mapParentRequestToParent(parentRequest);
+      return mapParentToParentResponse(parentRepository.save(parent));
     }
 
     public void deleteParent(long id){

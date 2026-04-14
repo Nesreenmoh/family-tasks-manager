@@ -1,6 +1,7 @@
 package com.family.task.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,5 +38,15 @@ public class GlobalExceptionHandler {
                 ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)
                         .body(errors);
+    }
+
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException e){
+
+        return
+                ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("Error", "BAD_REQUEST", "message",e.getMessage()));
     }
 }
