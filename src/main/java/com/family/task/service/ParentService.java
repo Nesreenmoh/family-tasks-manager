@@ -31,18 +31,18 @@ public class ParentService {
     }
 
     public void deleteParent(long id){
-        Parent parent = getParentById(id);
-        if( parent==null){
+        Optional<Parent> findParent = parentRepository.findById(id);
+        if( !findParent.isPresent()){
             throw new EntityNotFoundException("Parent with id " + id + " not found");
         }
-        parentRepository.delete(parent);
+        parentRepository.delete(findParent.get());
     }
-    public Parent getParentById(long id) {
+    public ParentResponse getParentById(long id) {
         Optional<Parent> parent = parentRepository.findById((id));
         if(!parent.isPresent()){
             throw new EntityNotFoundException("Parent with id " + id + " not found");
         }
-        return parent.get();
+        return mapParentToParentResponse(parent.get());
     }
 
     public List<Parent> getAllParents(){
@@ -50,14 +50,15 @@ public class ParentService {
     }
 
 
-    public Parent updateParent(long id, Parent parent){
-        Parent findParent = getParentById(id);
-        if( findParent==null){
-            throw new EntityNotFoundException("Parent with id " + parent.getId() + " not found");
+    public ParentResponse updateParent(long id, ParentRequest parentRequest){
+        Optional<Parent> findParent = parentRepository.findById(id);
+        if( !findParent.isPresent()){
+            throw new EntityNotFoundException("Parent with id " + id + " not found");
         }
-        findParent.setFName(parent.getFName());
-        findParent.setLName(parent.getLName());
-        findParent.setEmail(parent.getEmail());
-       return parentRepository.save(findParent);
+        findParent.get().setFName(parentRequest.fName());
+        findParent.get().setLName(parentRequest.lName());
+        findParent.get().setEmail(parentRequest.email());
+        parentRepository.save(findParent.get());
+        return mapParentToParentResponse(findParent.get());
     }
 }

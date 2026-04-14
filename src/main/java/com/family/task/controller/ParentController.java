@@ -32,25 +32,20 @@ public class ParentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Parent> getParentById(@PathVariable long id){
-        Parent parent = parentService.getParentById(id);
-        if(parent == null)
-        {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(parent);
+    public ResponseEntity<ParentResponse> getParentById(@PathVariable long id){
+        ParentResponse parentResponse = parentService.getParentById(id);
+        return ResponseEntity.ok(parentResponse);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteParentById(@PathVariable long id){
-        Parent parent = parentService.getParentById(id);
+    public ResponseEntity deleteParentById(@PathVariable long id){
         parentService.deleteParent(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Parent> updateParent(@PathVariable long id, @RequestBody @Valid Parent parent){
+    public ResponseEntity<ParentResponse> updateParent(@PathVariable long id, @RequestBody @Valid ParentRequest parentRequest){
         return
-                ResponseEntity.ok(parentService.updateParent(id, parent));
+                ResponseEntity.ok(parentService.updateParent(id, parentRequest));
     }
 }
