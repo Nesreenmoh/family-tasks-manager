@@ -51,20 +51,9 @@ public class RoutineService {
 
 
     public void deleteRoutine(long child_id, long routine_id ){
-
-        Optional<Child> child = childRepository.findById(child_id);
-        if(!child.isPresent()) {
-            throw new EntityNotFoundException("Child with id " + child_id + " not found");
-        }
-
-        Optional<Routine> removedRoutine = child.get().getRoutines()
-                .stream()
-                .filter(routine -> routine.getId().equals(routine_id))
-                .findFirst();
-
-        if(!removedRoutine.isPresent()){
-            throw new EntityNotFoundException("Routine with id " + routine_id + " not found");
-        }
-        child.get().getRoutines().remove(removedRoutine.get());
+        Routine routine = routineRepository.findByIdAndChildId(child_id,routine_id)
+                .orElseThrow(() -> new EntityNotFoundException("Routine/Child is not found!"));
+        routineRepository.delete(routine);
     }
+
 }

@@ -43,7 +43,7 @@ public class ParentController {
     public ResponseEntity<String> deleteParentById(@PathVariable long id){
         Parent parent = parentService.getParentById(id);
         parentService.deleteParent(id);
-        return ResponseEntity.ok("Parent Record has been Deleted Successfully");
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")

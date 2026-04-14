@@ -21,7 +21,7 @@ public class Parent extends Person {
     private Long id;
 
 
-    @Email
+    @Email(message = "Email should not be empty")
     @NotBlank(message = "Email must not be empty!")
     private String email;
 
