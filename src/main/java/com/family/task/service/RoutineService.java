@@ -49,9 +49,8 @@ public class RoutineService {
         return routineRepository.save(routine);
     }
 
-
     public void deleteRoutine(long child_id, long routine_id ){
-        Routine routine = routineRepository.findByIdAndChildId(child_id,routine_id)
+        Routine routine = routineRepository.findByIdAndChildId(routine_id,child_id)
                 .orElseThrow(() -> new EntityNotFoundException("Routine/Child is not found!"));
         routineRepository.delete(routine);
     }
