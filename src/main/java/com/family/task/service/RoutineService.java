@@ -8,11 +8,13 @@ import com.family.task.repository.RoutineRepository;
 import com.family.task.repository.TaskRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Transactional
 public class RoutineService {
 
     private final RoutineRepository routineRepository;
@@ -45,5 +47,24 @@ public class RoutineService {
 
     public Routine addRoutine (Routine routine){
         return routineRepository.save(routine);
+    }
+
+
+    public void deleteRoutine(long child_id, long routine_id ){
+
+        Optional<Child> child = childRepository.findById(child_id);
+        if(!child.isPresent()) {
+            throw new EntityNotFoundException("Child with id " + child_id + " not found");
+        }
+
+        Optional<Routine> removedRoutine = child.get().getRoutines()
+                .stream()
+                .filter(routine -> routine.getId().equals(routine_id))
+                .findFirst();
+
+        if(!removedRoutine.isPresent()){
+            throw new EntityNotFoundException("Routine with id " + routine_id + " not found");
+        }
+        child.get().getRoutines().remove(removedRoutine.get());
     }
 }

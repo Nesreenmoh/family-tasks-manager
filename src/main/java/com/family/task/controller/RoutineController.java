@@ -29,6 +29,11 @@ public class RoutineController {
        return ResponseEntity.ok( routineService.getRoutine(routine_id));
     }
 
+    @DeleteMapping("{routine_id}")
+    private ResponseEntity<String> deleteRoutine(@PathVariable long child_id, @PathVariable Long routine_id) {
+        routineService.deleteRoutine(child_id, routine_id);
+        return ResponseEntity.ok("Routine has been deleted successfully");
+    }
 
 //    @PostMapping
 //    private ResponseEntity<Routine> addRoutine(@RequestBody Routine routine){
