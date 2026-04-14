@@ -21,7 +21,8 @@ public class Parent extends Person {
     private Long id;
 
 
-    @Email(message = "Email should not be empty")
+    @Email(message = "Invalid Email Format",
+    regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
     @NotBlank(message = "Email must not be empty!")
     private String email;
 
