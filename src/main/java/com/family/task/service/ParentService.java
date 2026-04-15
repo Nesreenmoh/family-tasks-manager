@@ -1,5 +1,6 @@
 package com.family.task.service;
 
+import com.family.task.dto.ParentDetailsResponse;
 import com.family.task.dto.ParentRequest;
 import com.family.task.dto.ParentResponse;
 import com.family.task.entity.Parent;
@@ -11,8 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.family.task.mapper.ParentObjectMapper.mapParentRequestToParent;
-import static com.family.task.mapper.ParentObjectMapper.mapParentToParentResponse;
+import static com.family.task.mapper.ParentObjectMapper.*;
 
 @Service
 @Transactional
@@ -37,12 +37,12 @@ public class ParentService {
         }
         parentRepository.delete(findParent.get());
     }
-    public ParentResponse getParentById(long id) {
+    public ParentDetailsResponse getParentById(long id) {
         Optional<Parent> parent = parentRepository.findById((id));
         if(!parent.isPresent()){
             throw new EntityNotFoundException("Parent with id " + id + " not found");
         }
-        return mapParentToParentResponse(parent.get());
+        return mapParentToParentDetailsResponse(parent.get());
     }
 
     public List<Parent> getAllParents(){

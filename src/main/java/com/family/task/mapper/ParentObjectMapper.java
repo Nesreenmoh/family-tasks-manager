@@ -1,5 +1,6 @@
 package com.family.task.mapper;
 
+import com.family.task.dto.ParentDetailsResponse;
 import com.family.task.dto.ParentRequest;
 import com.family.task.dto.ParentResponse;
 import com.family.task.entity.Parent;
@@ -21,5 +22,11 @@ public class ParentObjectMapper {
         parent.setLName(parentRequest.lName());
         parent.setEmail(parentRequest.email());
         return parent ;
+    }
+
+    public static ParentDetailsResponse  mapParentToParentDetailsResponse(Parent parent){
+       return  new ParentDetailsResponse(parent.getId()
+                , parent.getFName(), parent.getLName(),
+                parent.getChildren());
     }
 }

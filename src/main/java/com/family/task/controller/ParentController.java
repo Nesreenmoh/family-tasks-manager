@@ -1,6 +1,7 @@
 package com.family.task.controller;
 
 
+import com.family.task.dto.ParentDetailsResponse;
 import com.family.task.dto.ParentRequest;
 import com.family.task.dto.ParentResponse;
 import com.family.task.entity.Parent;
@@ -32,8 +33,8 @@ public class ParentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ParentResponse> getParentById(@PathVariable long id){
-        ParentResponse parentResponse = parentService.getParentById(id);
+    public ResponseEntity<ParentDetailsResponse> getParentById(@PathVariable long id){
+        ParentDetailsResponse parentResponse = parentService.getParentById(id);
         return ResponseEntity.ok(parentResponse);
     }
 
