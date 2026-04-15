@@ -1,6 +1,8 @@
 package com.family.task.service;
 
 
+import com.family.task.dto.ChildRequest;
+import com.family.task.dto.ChildResponse;
 import com.family.task.entity.Child;
 import com.family.task.entity.Parent;
 import com.family.task.repository.ChildRepository;
@@ -11,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.family.task.mapper.ChildObjectMapper.mapChildRequestToChild;
+import static com.family.task.mapper.ChildObjectMapper.mapChildToChildResponse;
 
 @Service
 @Transactional
@@ -27,14 +32,15 @@ public class ChildService {
     }
 
 
-    public Child addChild(long parentId, Child child) {
+    public ChildResponse addChild(long parentId, ChildRequest childRequest) {
         Optional<Parent> parent = parentRepository.findById(parentId);
         if (!parent.isPresent()) {
             throw new EntityNotFoundException("Parent with id " + parentId + " not found");
         }
+        Child child = mapChildRequestToChild(childRequest);
         parent.get().addChild(child);
         parentRepository.save(parent.get()); // cascades child insert
-        return child;
+        return mapChildToChildResponse(child);
     }
 
     public Child updateChild(long parentid, long childId, Child child) {

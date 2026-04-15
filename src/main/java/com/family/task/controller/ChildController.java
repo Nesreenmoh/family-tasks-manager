@@ -1,5 +1,7 @@
 package com.family.task.controller;
 
+import com.family.task.dto.ChildRequest;
+import com.family.task.dto.ChildResponse;
 import com.family.task.entity.Child;
 import com.family.task.service.ChildService;
 import jakarta.validation.Valid;
@@ -19,8 +21,8 @@ public class ChildController {
     }
 
     @PostMapping
-    public ResponseEntity<Child> addChild(@PathVariable long parentId, @RequestBody @Valid Child child) {
-        return ResponseEntity.ok(childService.addChild(parentId, child));
+    public ResponseEntity<ChildResponse> addChild(@PathVariable long parentId, @RequestBody @Valid ChildRequest childRequest) {
+        return ResponseEntity.ok(childService.addChild(parentId, childRequest));
     }
 
     @GetMapping
