@@ -1,11 +1,11 @@
 package com.family.task.controller;
 
-import com.family.task.entity.Routine;
+import com.family.task.dto.RoutineDetails;
+import com.family.task.dto.RoutineRequest;
+import com.family.task.dto.RoutineResponse;
 import com.family.task.service.RoutineService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/children/{child_id}/routines")
@@ -19,13 +19,13 @@ public class RoutineController {
     }
 
     @GetMapping
-    private ResponseEntity<List<Routine>> getRoutines(@PathVariable long child_id) {
+    private ResponseEntity<RoutineDetails> getRoutines(@PathVariable long child_id) {
        return ResponseEntity.ok(routineService.getAllRoutines(child_id));
     }
 
     @GetMapping("/{routine_id}")
-    private ResponseEntity<Routine> getRoutine(@PathVariable long child_id, @PathVariable Long routine_id) {
-       return ResponseEntity.ok( routineService.getRoutine(routine_id));
+    private ResponseEntity<RoutineResponse> getRoutine(@PathVariable long child_id, @PathVariable Long routine_id) {
+       return ResponseEntity.ok( routineService.getRoutine(child_id,routine_id));
     }
 
     @DeleteMapping("{routine_id}")
@@ -34,10 +34,15 @@ public class RoutineController {
         return ResponseEntity.noContent().build();
     }
 
-//    @PostMapping
-//    private ResponseEntity<Routine> addRoutine(@RequestBody Routine routine){
-//        return ResponseEntity.ok( routineService.addRoutine(routine));
-//    }
+    @PostMapping
+    private ResponseEntity<RoutineResponse> addRoutine(@PathVariable long child_id, @RequestBody RoutineRequest routineRequest){
+        return ResponseEntity.ok( routineService.addRoutine(child_id, routineRequest));
+    }
+
+    @PutMapping("{routine_id}")
+    private ResponseEntity<RoutineResponse> updateRoutine(@PathVariable long child_id,  @PathVariable Long routine_id, @RequestBody RoutineRequest routineRequest){
+        return ResponseEntity.ok( routineService.updateRoutine(child_id, routine_id, routineRequest));
+    }
 
 
 }
