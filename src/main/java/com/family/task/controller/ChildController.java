@@ -2,6 +2,7 @@ package com.family.task.controller;
 
 import com.family.task.dto.ChildRequest;
 import com.family.task.dto.ChildResponse;
+import com.family.task.dto.ChildrenDetails;
 import com.family.task.entity.Child;
 import com.family.task.service.ChildService;
 import jakarta.validation.Valid;
@@ -26,25 +27,25 @@ public class ChildController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Child>> findAllChildren(@PathVariable long parentId) {
+    public ResponseEntity<ChildrenDetails> findAllChildren(@PathVariable long parentId) {
         return ResponseEntity.ok(childService.getAllChildren(parentId));
     }
 
 
     @GetMapping("/{childId}")
-    public ResponseEntity<Child> findChildById(@PathVariable long parentId, @PathVariable long childId) {
+    public ResponseEntity<ChildResponse> findChildById(@PathVariable long parentId, @PathVariable long childId) {
         return ResponseEntity.ok(childService.getChildById(childId));
     }
 
     @DeleteMapping("/{childId}")
     public ResponseEntity<String> deleteChildById(@PathVariable long parentId, @PathVariable long childId) {
         childService.deleteChild(parentId, childId);
-        return ResponseEntity.ok("Child Record has been deleted");
+        return ResponseEntity.noContent().build();
     }
 
 
     @PutMapping("/{childId}")
-    public ResponseEntity<Child> updateChildById(@PathVariable long parentId, @PathVariable long childId, @RequestBody @Valid Child child) {
+    public ResponseEntity<ChildResponse> updateChildById(@PathVariable long parentId, @PathVariable long childId, @RequestBody @Valid ChildRequest child) {
 
         return ResponseEntity.ok(childService.updateChild(parentId, childId, child));
     }

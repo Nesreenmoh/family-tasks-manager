@@ -1,6 +1,7 @@
 package com.family.task.service;
 
 
+import com.family.task.dto.ChildrenDetails;
 import com.family.task.dto.ChildRequest;
 import com.family.task.dto.ChildResponse;
 import com.family.task.entity.Child;
@@ -11,11 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
-import static com.family.task.mapper.ChildObjectMapper.mapChildRequestToChild;
-import static com.family.task.mapper.ChildObjectMapper.mapChildToChildResponse;
+import static com.family.task.mapper.ChildObjectMapper.*;
 
 @Service
 @Transactional
@@ -33,74 +30,61 @@ public class ChildService {
 
 
     public ChildResponse addChild(long parentId, ChildRequest childRequest) {
-        Optional<Parent> parent = parentRepository.findById(parentId);
-        if (!parent.isPresent()) {
-            throw new EntityNotFoundException("Parent with id " + parentId + " not found");
-        }
+        Parent parent = parentRepository.findById(parentId).orElseThrow(() ->
+            new EntityNotFoundException("Parent with id " + parentId + " not found"));
+
         Child child = mapChildRequestToChild(childRequest);
-        parent.get().addChild(child);
-        parentRepository.save(parent.get()); // cascades child insert
+        child.setParent(parent);
+        parent.addChild(child);
+        childRepository.save(child);
+        parentRepository.saveAndFlush(parent); // cascades child insert
         return mapChildToChildResponse(child);
     }
 
-    public Child updateChild(long parentid, long childId, Child child) {
-        Child updatedChild = getChildById(childId);
-        if (updatedChild == null) {
-            throw new EntityNotFoundException("Child with id " + child.getId() + " not found");
-        }
+    public ChildResponse updateChild(long parentId, long childId, ChildRequest childRequest) {
+        Child updatedChild = childRepository.findById(childId).orElseThrow(() ->
+                new EntityNotFoundException("Child with id " + childId + " not found"));
 
-        Optional<Parent> parent = parentRepository.findById(parentid);
-        if (!parent.isPresent()) {
-            throw new EntityNotFoundException("Parent with id " + parentid + " not found");
-        }
-        updatedChild.setFName(child.getFName());
-        updatedChild.setLName(child.getLName());
-        updatedChild.setAge(child.getAge());
+        Parent parent = parentRepository.findById(parentId).orElseThrow(() ->
+                new EntityNotFoundException("Parent with id " + parentId + " not found"));
 
-        return updatedChild;
+        updatedChild.setFName(childRequest.fName());
+        updatedChild.setLName(childRequest.lName());
+        updatedChild.setAge(childRequest.age());
+
+        return mapChildToChildResponse(updatedChild);
     }
 
     public void deleteChild(long parentId, long id) {
-        Child findChild = getChildById(id);
+        Child findChild = childRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Child with this Id " + id + " not found"));
 
-        if (findChild == null) {
-            throw new EntityNotFoundException("Child with this Id " + id + " not found");
-        }
-        Optional<Parent> parent = parentRepository.findById(parentId);
-        if (parent == null) {
-            throw new EntityNotFoundException("Parent with this Id " + id + " not found");
-        }
+        Parent parent = parentRepository.findById(parentId).orElseThrow(() ->
+                new EntityNotFoundException("Parent with id " + parentId + " not found"));
 
-        parent.get().removeChild(findChild);
-        parentRepository.save(parent.get());
+        parent.removeChild(findChild);
+        parentRepository.save(parent);
         childRepository.delete(findChild);
     }
 
 
-    public Child getChildById(long id) {
-        Optional<Child> child = childRepository.findById(id);
+    public ChildResponse getChildById(long id) {
+        Child child = childRepository.findById(id).orElseThrow( () ->
+                new EntityNotFoundException("Child with this Id " + id + " not found"));
+        return mapChildToChildResponse(child);
 
-        if (!child.isPresent()) {
-            throw new EntityNotFoundException("Child with this Id " + id + " not found");
-        }
-        return child.get();
     }
 
 
     /*
     Get all children that are belong to specific parent
      */
-    public List<Child> getAllChildren(long parentId) {
-        Optional<Parent> parent = parentRepository.findById(parentId);
-        if (!parent.isPresent()) {
-            throw new EntityNotFoundException("Parent with this Id " + parentId + " not found");
-        }
-//        return parent.get().getChildren()
-//                .stream()
-//                .filter(child -> child.getParent().getId().equals(parentId))
-//                .toList();
-        return parent.get()
-                .getChildren().stream().toList();
+    public ChildrenDetails getAllChildren(long parentId) {
+        Parent parent = parentRepository.findById(parentId).orElseThrow(() ->
+                new EntityNotFoundException("Parent with id " + parentId + " not found"));
+
+       return  mapChildrenToChildDetails(parent
+                .getChildren().stream().toList());
 
     }
 }

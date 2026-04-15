@@ -1,8 +1,11 @@
 package com.family.task.mapper;
 
+import com.family.task.dto.ChildrenDetails;
 import com.family.task.dto.ChildRequest;
 import com.family.task.dto.ChildResponse;
 import com.family.task.entity.Child;
+
+import java.util.List;
 
 public class ChildObjectMapper {
 
@@ -19,5 +22,9 @@ public class ChildObjectMapper {
     public static ChildResponse mapChildToChildResponse(Child child) {
         return
                 new ChildResponse(child.getId(), child.getAge(), child.getFName(), child.getLName());
+    }
+
+    public static ChildrenDetails mapChildrenToChildDetails(List<Child> children) {
+        return new ChildrenDetails(children);
     }
 }
