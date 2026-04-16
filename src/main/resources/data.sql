@@ -6,6 +6,8 @@ SELECT setval('routine_id_seq',(SELECT COALESCE(MAX(id), 0) FROM routine));
 
 SELECT setval('task_id_seq',(SELECT COALESCE(MAX(id), 0) FROM task));
 
+SELECT setval('task_instance_id_seq',(SELECT COALESCE(MAX(id), 0) FROM task_instance));
+
 
 -- -- Sample data for family task manager
 --

@@ -30,6 +30,7 @@ public class TaskInstance {
     private TaskStatus status = TaskStatus.PENDING;
 
 
+    @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
     @ManyToOne(fetch=FetchType.LAZY)
