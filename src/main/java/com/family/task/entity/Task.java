@@ -1,6 +1,7 @@
 package com.family.task.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -31,6 +32,7 @@ public class Task {
     private Routine routine;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<TaskInstance> taskInstance= new HashSet<>();
 
 

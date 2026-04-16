@@ -18,6 +18,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(("/api/v1/parents/**")).permitAll()
                         .requestMatchers(("/api/v1/children/**")).permitAll()
+                        .requestMatchers(("/api/v1/routines/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
