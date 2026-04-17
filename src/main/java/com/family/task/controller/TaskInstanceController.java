@@ -41,4 +41,11 @@ public class TaskInstanceController {
     private ResponseEntity<TaskInstanceResponse> getTaskInstances(@PathVariable long childId,  @PathVariable long taskInstanceId) {
         return  ResponseEntity.ok(taskInstanceService.getTaskInstance(childId, taskInstanceId));
     }
+
+    @PatchMapping("{taskInstanceId}/complete")
+    private ResponseEntity<TaskInstanceResponse> updateTaskInstance(@PathVariable long childId,  @PathVariable long taskInstanceId, @RequestBody TaskInstanceRequest taskInstanceRequest) {
+        return  ResponseEntity.ok(taskInstanceService.updateTaskInstance(childId, taskInstanceId, taskInstanceRequest));
+    }
+
+
 }

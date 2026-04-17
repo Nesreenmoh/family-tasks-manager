@@ -7,12 +7,15 @@ import com.family.task.dto.TaskInstanceResponse;
 import com.family.task.entity.Child;
 import com.family.task.entity.Task;
 import com.family.task.entity.TaskInstance;
+import com.family.task.entity.TaskStatus;
 import com.family.task.repository.ChildRepository;
 import com.family.task.repository.TaskInstanceRepository;
 import com.family.task.repository.TaskRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.family.task.mapper.TaskInstanceMapper.*;
@@ -53,6 +56,9 @@ public class TaskInstanceService {
         TaskInstance taskInstance = taskInstanceRepository.findById(taskInstanceId).orElseThrow(
                 () -> new IllegalArgumentException("Task Instance with id " + taskInstanceId + " not found")
         );
+        if(taskInstance.getChild().getId() != child.getId()){
+            throw new IllegalArgumentException("Task Instance with id " + taskInstanceId + " does not belong to child with id " + childId);
+        }
         taskInstanceRepository.delete(taskInstance);
 
     }
@@ -75,5 +81,29 @@ public class TaskInstanceService {
                 () -> new IllegalArgumentException("Task Instance with id " + taskInstanceId + " not found")
         );
         return mapTaskInstanceToTaskInstanceResponse(taskInstance);
+    }
+
+    public TaskInstanceResponse updateTaskInstance(long childId, long taskInstanceId, TaskInstanceRequest taskInstanceRequest) {
+        Child child = childRepository.findById(childId).orElseThrow(() ->
+                new IllegalArgumentException("Child with id " + childId + " not found"));
+
+        TaskInstance existingTaskInstance = taskInstanceRepository.findById(taskInstanceId).orElseThrow(
+                () -> new IllegalArgumentException("Task Instance with id " + taskInstanceId + " not found")
+        );
+
+        if(existingTaskInstance.getChild().getId() != child.getId()){
+            throw new IllegalArgumentException("Task Instance with id " + taskInstanceId + " does not belong to child with id " + childId);
+        }
+
+        existingTaskInstance.setStatus(TaskStatus.COMPLETED);
+        existingTaskInstance.setCompletedAt(LocalDateTime.now());
+        taskInstanceRepository.save(existingTaskInstance);
+        return mapTaskInstanceToTaskInstanceResponse(existingTaskInstance);
+    }
+
+
+    @Scheduled(cron = "0 0 0 * * *") // This will run every day at midnight
+    public void generateDailyTaskInstance(){
+
     }
 }
