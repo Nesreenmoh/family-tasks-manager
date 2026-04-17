@@ -5,26 +5,18 @@ import com.family.task.dto.TaskInstanceDetails;
 import com.family.task.dto.TaskInstanceRequest;
 import com.family.task.dto.TaskInstanceResponse;
 import com.family.task.service.TaskInstanceService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/children/{childId}/taskInstances")
+@AllArgsConstructor
 public class TaskInstanceController {
 
     private final TaskInstanceService taskInstanceService;
 
-
-    public TaskInstanceController(TaskInstanceService taskInstanceService) {
-        this.taskInstanceService = taskInstanceService;
-    }
-
-
-    @PostMapping
-    private ResponseEntity<TaskInstanceResponse> addTaskInstance(@PathVariable long childId, @RequestBody TaskInstanceRequest taskInstanceRequest) {
-        return ResponseEntity.ok(taskInstanceService.addTaskInstance(childId, taskInstanceRequest));
-    }
-
+    @PostMapping()
 
     @DeleteMapping("{taskInstance_id}")
     private ResponseEntity<TaskInstanceResponse> deleteTaskInstance(@PathVariable long childId,@PathVariable long taskInstance_id) {
