@@ -4,9 +4,7 @@ package com.family.task.service;
 import com.family.task.dto.entities.TaskInstanceDetails;
 import com.family.task.dto.entities.TaskInstanceRequest;
 import com.family.task.dto.entities.TaskInstanceResponse;
-import com.family.task.entity.Child;
-import com.family.task.entity.TaskInstance;
-import com.family.task.entity.TaskStatus;
+import com.family.task.entity.*;
 import com.family.task.repository.ChildRepository;
 import com.family.task.repository.TaskInstanceRepository;
 import com.family.task.repository.TaskRepository;
@@ -14,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,22 +27,39 @@ public class TaskInstanceService {
     private final TaskInstanceRepository taskInstanceRepository;
     private final ChildRepository childRepository;
     private final TaskRepository taskRepository;
+    private final TaskInstanceEventProducer taskInstanceEventProducer;
 
 
-//    public TaskInstanceResponse addTaskInstance(long childId, TaskInstanceRequest taskInstanceRequest) {
-//        Child child = childRepository.findById(childId).orElseThrow(() ->
-//                new IllegalArgumentException("Child with id " + childId + " not found"));
-//
-//        Task task = taskRepository.findById(taskInstanceRequest.taskId()).orElseThrow(
-//                () -> new IllegalArgumentException("Task with id " + taskInstanceRequest.taskId() + " not found")
-//        );
-//
-//        TaskInstance taskInstance = mapTaskInstanceRequestToTaskInstance(taskInstanceRequest);
-//        taskInstance.setChild(child);
-//        taskInstance.setTask(task);
-//        taskInstanceRepository.save(taskInstance);
-//        return mapTaskInstanceToTaskInstanceResponse(taskInstance);
-//    }
+    public void generateDailyTaskInstance() {
+        LocalDate today = LocalDate.now();
+
+        List<Child> children = childRepository.findAll();
+
+        for (Child child : children) {
+            for (Routine routine : child.getRoutines()) {
+                for (Task task : routine.getTasks()) {
+                    if (!taskInstanceRepository.existsByChildIdAndTaskIdAndExecutionDate(child.getId(),task.getId(), today)) {
+                        createTaskInstance(child, task, today);
+                    }
+                }
+            }
+        }
+
+    }
+
+    private void createTaskInstance(Child child, Task task, LocalDate today) {
+        TaskInstance taskInstance = TaskInstance
+                .builder()
+                .child(child)
+                .task(task)
+                .executionDate(today)
+                .status(TaskStatus.PENDING)
+                .build();
+
+        TaskInstance createdTaskInstance = taskInstanceRepository.save(taskInstance);
+
+        taskInstanceEventProducer.sendTaskInstanceCreatedEvent(createdTaskInstance);
+    }
 
     public void deleteTaskInstance(long childId, long taskInstanceId) {
         Child child = childRepository.findById(childId).orElseThrow(() ->
