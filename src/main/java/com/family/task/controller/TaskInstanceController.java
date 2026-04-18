@@ -16,7 +16,7 @@ public class TaskInstanceController {
 
     private final TaskInstanceService taskInstanceService;
 
-    @PostMapping()
+
 
     @DeleteMapping("{taskInstance_id}")
     private ResponseEntity<TaskInstanceResponse> deleteTaskInstance(@PathVariable long childId,@PathVariable long taskInstance_id) {
