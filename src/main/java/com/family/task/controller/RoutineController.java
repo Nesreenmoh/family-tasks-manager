@@ -1,8 +1,8 @@
 package com.family.task.controller;
 
-import com.family.task.dto.RoutineDetails;
-import com.family.task.dto.RoutineRequest;
-import com.family.task.dto.RoutineResponse;
+import com.family.task.dto.entities.RoutineDetails;
+import com.family.task.dto.entities.RoutineRequest;
+import com.family.task.dto.entities.RoutineResponse;
 import com.family.task.service.RoutineService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,9 +1,9 @@
 package com.family.task.controller;
 
 
-import com.family.task.dto.TaskRequest;
-import com.family.task.dto.TaskResponse;
-import com.family.task.dto.TaskRoutineDetails;
+import com.family.task.dto.entities.TaskRequest;
+import com.family.task.dto.entities.TaskResponse;
+import com.family.task.dto.entities.TaskRoutineDetails;
 import com.family.task.service.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

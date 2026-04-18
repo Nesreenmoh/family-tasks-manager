@@ -1,8 +1,8 @@
 package com.family.task.mapper;
 
-import com.family.task.dto.ChildrenDetails;
-import com.family.task.dto.ChildRequest;
-import com.family.task.dto.ChildResponse;
+import com.family.task.dto.entities.ChildrenDetails;
+import com.family.task.dto.entities.ChildRequest;
+import com.family.task.dto.entities.ChildResponse;
 import com.family.task.entity.Child;
 
 import java.util.List;

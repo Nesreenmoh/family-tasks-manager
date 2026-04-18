@@ -18,6 +18,7 @@ public class TaskInstanceScheduler {
 
     private final ChildRepository childRepository;
     private final TaskInstanceRepository taskInstanceRepository;
+    private final TaskInstanceEventProducer  taskInstanceEventProducer;
 
 
     @Scheduled(cron = "0 0 0 * * *") // This will run every day at midnight
@@ -47,6 +48,8 @@ public class TaskInstanceScheduler {
                 .status(TaskStatus.PENDING)
                 .build();
 
-        taskInstanceRepository.save(taskInstance);
+        TaskInstance createdTaskInstance = taskInstanceRepository.save(taskInstance);
+
+        taskInstanceEventProducer.sendTaskInstanceCreatedEvent(createdTaskInstance);
     }
 }

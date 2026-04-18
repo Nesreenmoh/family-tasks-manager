@@ -1,9 +1,9 @@
 package com.family.task.service;
 
 
-import com.family.task.dto.TaskRequest;
-import com.family.task.dto.TaskResponse;
-import com.family.task.dto.TaskRoutineDetails;
+import com.family.task.dto.entities.TaskRequest;
+import com.family.task.dto.entities.TaskResponse;
+import com.family.task.dto.entities.TaskRoutineDetails;
 import com.family.task.entity.Routine;
 import com.family.task.entity.Task;
 import com.family.task.repository.RoutineRepository;

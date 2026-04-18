@@ -1,15 +1,12 @@
 package com.family.task.controller;
 
-import com.family.task.dto.ChildRequest;
-import com.family.task.dto.ChildResponse;
-import com.family.task.dto.ChildrenDetails;
-import com.family.task.entity.Child;
+import com.family.task.dto.entities.ChildRequest;
+import com.family.task.dto.entities.ChildResponse;
+import com.family.task.dto.entities.ChildrenDetails;
 import com.family.task.service.ChildService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/parents/{parentId}/children")

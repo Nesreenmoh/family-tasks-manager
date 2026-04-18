@@ -1,4 +1,4 @@
-package com.family.task.dto;
+package com.family.task.dto.entities;
 
 import java.time.LocalTime;
 

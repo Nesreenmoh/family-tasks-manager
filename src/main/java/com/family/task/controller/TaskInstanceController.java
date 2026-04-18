@@ -1,9 +1,9 @@
 package com.family.task.controller;
 
 
-import com.family.task.dto.TaskInstanceDetails;
-import com.family.task.dto.TaskInstanceRequest;
-import com.family.task.dto.TaskInstanceResponse;
+import com.family.task.dto.entities.TaskInstanceDetails;
+import com.family.task.dto.entities.TaskInstanceRequest;
+import com.family.task.dto.entities.TaskInstanceResponse;
 import com.family.task.service.TaskInstanceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

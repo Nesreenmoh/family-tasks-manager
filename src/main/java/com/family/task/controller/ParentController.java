@@ -1,9 +1,9 @@
 package com.family.task.controller;
 
 
-import com.family.task.dto.ParentDetailsResponse;
-import com.family.task.dto.ParentRequest;
-import com.family.task.dto.ParentResponse;
+import com.family.task.dto.entities.ParentDetailsResponse;
+import com.family.task.dto.entities.ParentRequest;
+import com.family.task.dto.entities.ParentResponse;
 import com.family.task.entity.Parent;
 import com.family.task.service.ParentService;
 import jakarta.validation.Valid;

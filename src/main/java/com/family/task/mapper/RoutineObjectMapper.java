@@ -1,8 +1,8 @@
 package com.family.task.mapper;
 
-import com.family.task.dto.RoutineDetails;
-import com.family.task.dto.RoutineRequest;
-import com.family.task.dto.RoutineResponse;
+import com.family.task.dto.entities.RoutineDetails;
+import com.family.task.dto.entities.RoutineRequest;
+import com.family.task.dto.entities.RoutineResponse;
 import com.family.task.entity.Child;
 import com.family.task.entity.Routine;
 

@@ -1,6 +1,4 @@
-package com.family.task.dto;
-
-import com.family.task.entity.Routine;
+package com.family.task.dto.entities;
 
 import java.time.LocalTime;
 
