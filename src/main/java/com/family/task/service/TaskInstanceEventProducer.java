@@ -18,7 +18,7 @@ public class TaskInstanceEventProducer {
 
     private final String TOPIC = "task_instance_created";
 
-    private final KafkaTemplate<String, TaskInstanceCreatedEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
 
     public void sendTaskInstanceCreatedEvent(TaskInstance taskInstance) {
