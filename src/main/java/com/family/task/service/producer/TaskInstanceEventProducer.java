@@ -1,5 +1,6 @@
-package com.family.task.service;
+package com.family.task.service.producer;
 
+import com.family.task.dto.events.TaskInstanceCompletedEvent;
 import com.family.task.dto.events.TaskInstanceCreatedEvent;
 import com.family.task.entity.TaskInstance;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
 /*
 This event triggered when TaskInstance -> Saved
  */
@@ -18,13 +20,13 @@ public class TaskInstanceEventProducer {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(TaskInstanceEventProducer.class);
 
-    private final String TOPIC = "task_instance_created";
+    private final String CREATED_TOPIC = "task_instance_created";
+    private final String COMPLETED_TOPIC = "task_instance_completed";
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
     public void sendTaskInstanceCreatedEvent(TaskInstance taskInstance) {
-
 
 
         try {
@@ -38,7 +40,7 @@ public class TaskInstanceEventProducer {
                     );
 
             String payload = objectMapper.writeValueAsString(taskInstanceCreatedEvent);
-            kafkaTemplate.send(TOPIC, payload);
+            kafkaTemplate.send(CREATED_TOPIC, payload);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize event", e);
         }
@@ -47,5 +49,27 @@ public class TaskInstanceEventProducer {
         LOGGER.info("Sent TaskInstanceCreatedEvent for TaskInstance with id: {}", taskInstance.getId());
     }
 
+
+    public void taskCompletedEvent(TaskInstance taskInstance) {
+        try
+        {
+            TaskInstanceCompletedEvent taskInstanceCompletedEvent =
+                    new TaskInstanceCompletedEvent(
+                            taskInstance.getId(),
+                            "Completed",
+                            taskInstance.getExecutionDate(),
+                            taskInstance.getCompletedAt(),
+                            taskInstance.getTask().getId(),
+                            taskInstance.getTask().getName(),
+                            taskInstance.getChild().getFName()+" "+ taskInstance.getChild().getLName()
+                    );
+            String payload = objectMapper.writeValueAsString(taskInstanceCompletedEvent);
+            kafkaTemplate.send(COMPLETED_TOPIC, payload);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
 
 }

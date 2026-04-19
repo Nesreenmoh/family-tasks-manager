@@ -2,12 +2,12 @@ package com.family.task.service;
 
 
 import com.family.task.dto.entities.TaskInstanceDetails;
-import com.family.task.dto.entities.TaskInstanceRequest;
 import com.family.task.dto.entities.TaskInstanceResponse;
 import com.family.task.entity.*;
 import com.family.task.repository.ChildRepository;
 import com.family.task.repository.TaskInstanceRepository;
 import com.family.task.repository.TaskRepository;
+import com.family.task.service.producer.TaskInstanceEventProducer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +38,7 @@ public class TaskInstanceService {
         for (Child child : children) {
             for (Routine routine : child.getRoutines()) {
                 for (Task task : routine.getTasks()) {
-                    if (!taskInstanceRepository.existsByChildIdAndTaskIdAndExecutionDate(child.getId(),task.getId(), today)) {
+                    if (!taskInstanceRepository.existsByChildIdAndTaskIdAndExecutionDate(child.getId(), task.getId(), today)) {
                         createTaskInstance(child, task, today);
                     }
                 }
@@ -68,7 +68,7 @@ public class TaskInstanceService {
         TaskInstance taskInstance = taskInstanceRepository.findById(taskInstanceId).orElseThrow(
                 () -> new IllegalArgumentException("Task Instance with id " + taskInstanceId + " not found")
         );
-        if(taskInstance.getChild().getId() != child.getId()){
+        if (taskInstance.getChild().getId() != child.getId()) {
             throw new IllegalArgumentException("Task Instance with id " + taskInstanceId + " does not belong to child with id " + childId);
         }
         taskInstanceRepository.delete(taskInstance);
@@ -95,7 +95,7 @@ public class TaskInstanceService {
         return mapTaskInstanceToTaskInstanceResponse(taskInstance);
     }
 
-    public TaskInstanceResponse updateTaskInstance(long childId, long taskInstanceId, TaskInstanceRequest taskInstanceRequest) {
+    public TaskInstanceResponse updateTaskInstance(long childId, long taskInstanceId) {
         Child child = childRepository.findById(childId).orElseThrow(() ->
                 new IllegalArgumentException("Child with id " + childId + " not found"));
 
@@ -103,13 +103,14 @@ public class TaskInstanceService {
                 () -> new IllegalArgumentException("Task Instance with id " + taskInstanceId + " not found")
         );
 
-        if(existingTaskInstance.getChild().getId() != child.getId()){
+        if (existingTaskInstance.getChild().getId() != child.getId()) {
             throw new IllegalArgumentException("Task Instance with id " + taskInstanceId + " does not belong to child with id " + childId);
         }
 
         existingTaskInstance.setStatus(TaskStatus.COMPLETED);
         existingTaskInstance.setCompletedAt(LocalDateTime.now());
         taskInstanceRepository.save(existingTaskInstance);
+        taskInstanceEventProducer.taskCompletedEvent(existingTaskInstance);
         return mapTaskInstanceToTaskInstanceResponse(existingTaskInstance);
     }
 
