@@ -1,45 +1,45 @@
--- select * from parent;
-
--- SELECT setval('child_id_seq', (SELECT COALESCE(MAX(id), 0) FROM child) + 1, false);
-
--- SELECT setval('routine_id_seq',(SELECT COALESCE(MAX(id), 0) FROM routine));
-
--- SELECT setval('task_id_seq',(SELECT COALESCE(MAX(id), 0) FROM task));
-
--- SELECT setval('task_instance_id_seq',(SELECT COALESCE(MAX(id), 0) FROM task_instance));
-
--- Select * from task_instance;
-
--- -- Sample data for family task manager
+ select * from parent;
 --
--- -- Insert parents
-INSERT INTO parent (f_name, l_name, email) VALUES ('John', 'Doe', 'john.doe@example.com');
-INSERT INTO parent (f_name, l_name, email) VALUES ('Jane', 'Smith', 'jane.smith@example.com');
+-- -- SELECT setval('child_id_seq', (SELECT COALESCE(MAX(id), 0) FROM child) + 1, false);
 --
--- -- Insert children
-INSERT INTO child (f_name, l_name, age, parent_id) VALUES ('Alice', 'Doe', 10, 1);
-INSERT INTO child (f_name, l_name, age, parent_id) VALUES ('Bob', 'Doe', 8, 1);
-INSERT INTO child (f_name, l_name, age, parent_id) VALUES ('Charlie', 'Smith', 12, 2);
+-- -- SELECT setval('routine_id_seq',(SELECT COALESCE(MAX(id), 0) FROM routine));
 --
--- -- Insert routines
-INSERT INTO routine (name, child_id) VALUES ('Morning Routine', 1);
-INSERT INTO routine (name, child_id) VALUES ('Evening Routine', 1);
-INSERT INTO routine (name, child_id) VALUES ('Homework Routine', 2);
-INSERT INTO routine (name, child_id) VALUES ('Chores Routine', 3);
+-- -- SELECT setval('task_id_seq',(SELECT COALESCE(MAX(id), 0) FROM task));
 --
--- -- Insert tasks
-INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Brush teeth', '07:00:00', 1);
-INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Eat breakfast', '07:30:00', 1);
-INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Get dressed', '08:00:00', 1);
-INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Read book', '20:00:00', 2);
-INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Brush teeth again', '20:30:00', 2);
-INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Do math homework', '18:00:00', 3);
-INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Clean room', '16:00:00', 4);
+-- -- SELECT setval('task_instance_id_seq',(SELECT COALESCE(MAX(id), 0) FROM task_instance));
 --
--- -- Insert task instances (for today)
--- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'PENDING', 1, 1);
--- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'PENDING', 1, 2);
--- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'PENDING', 1, 3);
--- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'COMPLETED', 1, 4);
--- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'PENDING', 2, 6);
--- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'MISSED', 3, 7);
+-- -- Select * from task_instance;
+--
+-- -- -- Sample data for family task manager
+-- --
+-- -- -- Insert parents
+-- INSERT INTO parent (f_name, l_name, email) VALUES ('John', 'Doe', 'john.doe@example.com');
+-- INSERT INTO parent (f_name, l_name, email) VALUES ('Jane', 'Smith', 'jane.smith@example.com');
+-- --
+-- -- -- Insert children
+-- INSERT INTO child (f_name, l_name, age, parent_id) VALUES ('Alice', 'Doe', 10, 1);
+-- INSERT INTO child (f_name, l_name, age, parent_id) VALUES ('Bob', 'Doe', 8, 1);
+-- INSERT INTO child (f_name, l_name, age, parent_id) VALUES ('Charlie', 'Smith', 12, 2);
+-- --
+-- -- -- Insert routines
+-- INSERT INTO routine (name, child_id) VALUES ('Morning Routine', 1);
+-- INSERT INTO routine (name, child_id) VALUES ('Evening Routine', 1);
+-- INSERT INTO routine (name, child_id) VALUES ('Homework Routine', 2);
+-- INSERT INTO routine (name, child_id) VALUES ('Chores Routine', 3);
+-- --
+-- -- -- Insert tasks
+-- INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Brush teeth', '07:00:00', 1);
+-- INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Eat breakfast', '07:30:00', 1);
+-- INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Get dressed', '08:00:00', 1);
+-- INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Read book', '20:00:00', 2);
+-- INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Brush teeth again', '20:30:00', 2);
+-- INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Do math homework', '18:00:00', 3);
+-- INSERT INTO task (name, scheduled_time, routine_id) VALUES ('Clean room', '16:00:00', 4);
+-- --
+-- -- -- Insert task instances (for today)
+-- -- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'PENDING', 1, 1);
+-- -- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'PENDING', 1, 2);
+-- -- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'PENDING', 1, 3);
+-- -- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'COMPLETED', 1, 4);
+-- -- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'PENDING', 2, 6);
+-- -- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'MISSED', 3, 7);

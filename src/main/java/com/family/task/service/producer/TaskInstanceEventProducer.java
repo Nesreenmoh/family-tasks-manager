@@ -6,6 +6,7 @@ import com.family.task.entity.TaskInstance;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -16,9 +17,10 @@ This event triggered when TaskInstance -> Saved
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TaskInstanceEventProducer {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(TaskInstanceEventProducer.class);
+
 
     private final String CREATED_TOPIC = "task_instance_created";
     private final String COMPLETED_TOPIC = "task_instance_completed";
@@ -46,7 +48,7 @@ public class TaskInstanceEventProducer {
         }
 
 
-        LOGGER.info("Sent TaskInstanceCreatedEvent for TaskInstance with id: {}", taskInstance.getId());
+        log.info("Sent TaskInstanceCreatedEvent for TaskInstance with id: {}", taskInstance.getId());
     }
 
 
