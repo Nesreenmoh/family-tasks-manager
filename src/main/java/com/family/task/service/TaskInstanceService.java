@@ -11,6 +11,10 @@ import com.family.task.service.producer.TaskInstanceEventProducer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,6 +32,7 @@ public class TaskInstanceService {
     private final ChildRepository childRepository;
     private final TaskRepository taskRepository;
     private final TaskInstanceEventProducer taskInstanceEventProducer;
+    private final MeterRegistry meterRegistry;
 
 
     public void generateDailyTaskInstance() {

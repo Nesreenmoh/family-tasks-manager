@@ -89,10 +89,6 @@ services:
       # ✅ Development-friendly
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
-
-
-
-
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka_ui
@@ -103,6 +99,12 @@ services:
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+
+  otel-collector:
+    image: otel/opentelemetry-collector:latest
+    container_name: otel_collector
+    ports:
+      - "4317:4317"
 
 
 volumes:

@@ -38,3 +38,14 @@ management:
     distribution:
       percentiles-histogram:
         http:server.requests: true
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: 1.0
+  logging:
+    pattern:
+      level: "%5p [traceId=%X{traceId}, spanId=%X{spanId}]"
+  otlp:
+    tracing:
+      endpoint: http://localhost:4317
