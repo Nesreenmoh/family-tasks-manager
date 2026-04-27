@@ -43,3 +43,4 @@
 -- -- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'COMPLETED', 1, 4);
 -- -- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'PENDING', 2, 6);
 -- -- INSERT INTO task_instance (execution_date, status, child_id, task_id) VALUES (CURRENT_DATE, 'MISSED', 3, 7);
+

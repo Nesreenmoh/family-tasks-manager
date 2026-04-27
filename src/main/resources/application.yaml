@@ -6,7 +6,7 @@ spring:
       password: admin
 
   application:
-    name: children-tasks-manager
+    name: family-task-app
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
@@ -43,9 +43,12 @@ management:
   tracing:
     sampling:
       probability: 1.0
+    propagation:
+      type: jaeger_remote_sampler
   logging:
     pattern:
       level: "%5p [traceId=%X{traceId}, spanId=%X{spanId}]"
   otlp:
     tracing:
       endpoint: http://localhost:4317
+      timeout: 30s

@@ -1,0 +1,27 @@
+# OpenTelemetry Collector configuration for Tempo
+
+receivers: # Receivers define how the collector receives telemetry data. In this case, we are using the OTLP receiver to accept data in both gRPC and HTTP formats.
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors: # Processors are used to modify or enhance telemetry data before it is exported. The batch processor is commonly used to group telemetry data into batches for more efficient exporting.
+  batch:
+    timeout: 10s
+    send_batch_size: 1024
+
+exporters: # Exporters define how the collector sends telemetry data to backends. In this case, we are configuring an OTLP exporter to send data to Tempo.
+  otlp/tempo:
+    endpoint: tempo:3200
+    tls:
+      insecure: true
+
+service: # The service section defines how the collector processes and exports telemetry data. We are creating a pipeline for traces that uses the OTLP receiver and exports to Tempo.
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp/tempo]
+

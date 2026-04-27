@@ -18,6 +18,7 @@ services:
     container_name: grafana
     depends_on:
       - prometheus
+      - tempo
     ports:
       - "3000:3000"
     environment:
@@ -25,7 +26,19 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./grafana-datasource.yml:/etc/grafana/provisioning/datasources/prometheus.yml
+      - ./grafana-datasource.yaml:/etc/grafana/provisioning/datasources/prometheus.yml
+    restart: unless-stopped
+
+  tempo:
+    image: grafana/tempo:2.3.1
+    container_name: tempo
+    ports:
+      - "3200:3200" # Tempo UI/API
+    command:
+      - "-config.file=/etc/tempo/tempo.yaml"
+    volumes:
+      - ./tempo.yaml:/etc/tempo/tempo.yaml
+      - tempo_data:/var/tempo/traces
     restart: unless-stopped
 
   postgres:
@@ -101,13 +114,20 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
 
   otel-collector:
-    image: otel/opentelemetry-collector:latest
-    container_name: otel_collector
-    ports:
-      - "4317:4317"
+     image: otel/opentelemetry-collector:latest
+     container_name: otel_collector
+     ports:
+       - "4317:4317"
+     volumes:
+       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+     command:
+       - "--config=/etc/otel-collector-config.yaml"
+     depends_on:
+       - tempo
 
 
 volumes:
   prometheus_data:
   grafana_data:
   postgres_data:
+  tempo_data:

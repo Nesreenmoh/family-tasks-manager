@@ -17,7 +17,7 @@ public interface TaskInstanceRepository extends JpaRepository<TaskInstance, Long
 
 
    @Query("""
-SELECT COUNT(ti) > 0 FROM TaskInstance ti WHERE ti.child.id =:childId AND ti.task.id = :taskId AND ti.executionDate <=:today
+SELECT COUNT(ti) > 0 FROM TaskInstance ti WHERE ti.child.id =:childId AND ti.task.id = :taskId AND ti.executionDate = :today
 """)
 
    boolean existsByChildIdAndTaskIdAndExecutionDate(@Param("childId") Long childId, @Param("taskId") Long taskId, @Param("today") LocalDate executionDate);

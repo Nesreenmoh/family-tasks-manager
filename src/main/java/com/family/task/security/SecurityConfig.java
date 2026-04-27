@@ -20,6 +20,7 @@ public class SecurityConfig {
                         .requestMatchers(("/api/v1/children/**")).permitAll()
                         .requestMatchers(("/api/v1/routines/**")).permitAll()
                         .requestMatchers(("/actuator/prometheus")).permitAll()
+                        .requestMatchers(("/test-trace")).permitAll()
                         .requestMatchers(("/internal/generate-task-instances")).permitAll()
                         .anyRequest().authenticated()
                 )
